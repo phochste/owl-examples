@@ -1,0 +1,6 @@
+@prefix ex: <http://example.com/> .
+
+ex:Mika 
+    a ex:Cat ;
+    ex:likes :Food ;
+    ex:friend ex:Mike .

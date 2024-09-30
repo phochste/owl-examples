@@ -1,0 +1,27 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ex: <http://example.com/> .
+
+<http://example.com/ontology> a owl:Ontology ;
+     owl:imports <file://CWD/ODRL22.ttl> .
+
+# Two policies that have an internal conflict where there is a permission
+# and a prohibition to display a target ...but the target is some RDF data
+
+<http://example.com/policy:5555> a <http://www.w3.org/ns/odrl/2/Agreement> ;
+  <http://www.w3.org/ns/odrl/2/profile> <http://example.com/odrl:profile:08>;
+  <http://www.w3.org/ns/odrl/2/permission> [
+    <http://www.w3.org/ns/odrl/2/action> <http://www.w3.org/ns/odrl/2/display>;
+    <http://www.w3.org/ns/odrl/2/assignee> <http://example.com/assignee:55>;
+    <http://www.w3.org/ns/odrl/2/assigner> <http://example.com/assigner:55>;
+    <http://www.w3.org/ns/odrl/2/target> <file://CWD/source1.ttl>
+  ] .
+
+<http://example.com/policy:5556> a <http://www.w3.org/ns/odrl/2/Agreement> ;
+  <http://www.w3.org/ns/odrl/2/profile> <http://example.com/odrl:profile:08>;
+  <http://www.w3.org/ns/odrl/2/prohibition> [
+    <http://www.w3.org/ns/odrl/2/action> <http://www.w3.org/ns/odrl/2/display>;
+    <http://www.w3.org/ns/odrl/2/assignee> <http://example.com/assignee:55>;
+    <http://www.w3.org/ns/odrl/2/assigner> <http://example.com/assigner:55>;
+    <http://www.w3.org/ns/odrl/2/target> <file://CWD/source2.ttl>
+  ] .

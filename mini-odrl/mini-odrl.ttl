@@ -1,0 +1,161 @@
+@prefix : <https://patrickhochstenbach.net/ontologies/mini-odrl.ttl> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mini-odrl.ttl: <https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#> .
+@base <https://patrickhochstenbach.net/ontologies/mini-odrl.ttl> .
+
+<https://patrickhochstenbach.net/ontologies/mini-odrl.ttl> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+<http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#permission
+mini-odrl.ttl:permission rdf:type owl:ObjectProperty ;
+                         rdfs:domain mini-odrl.ttl:Policy ;
+                         rdfs:range mini-odrl.ttl:Permission ,
+                                    mini-odrl.ttl:Rule .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#prohibition
+mini-odrl.ttl:prohibition rdf:type owl:ObjectProperty ;
+                          rdfs:domain mini-odrl.ttl:Policy ;
+                          rdfs:range mini-odrl.ttl:Prohibition ,
+                                     mini-odrl.ttl:Rule .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#target
+mini-odrl.ttl:target rdf:type owl:ObjectProperty ;
+                     rdfs:domain mini-odrl.ttl:Rule ;
+                     rdfs:range mini-odrl.ttl:Asset .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Agreement
+mini-odrl.ttl:Agreement rdf:type owl:Class ;
+                        rdfs:subClassOf mini-odrl.ttl:Policy .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Asset
+mini-odrl.ttl:Asset rdf:type owl:Class .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Permission
+mini-odrl.ttl:Permission rdf:type owl:Class ;
+                         rdfs:subClassOf mini-odrl.ttl:Rule ;
+                         owl:disjointWith mini-odrl.ttl:Prohibition .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Policy
+mini-odrl.ttl:Policy rdf:type owl:Class .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Prohibition
+mini-odrl.ttl:Prohibition rdf:type owl:Class ;
+                          rdfs:subClassOf mini-odrl.ttl:Rule .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Rule
+mini-odrl.ttl:Rule rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://patrickhochstenbach.net/movies
+<http://patrickhochstenbach.net/movies> rdf:type owl:NamedIndividual ,
+                                                 mini-odrl.ttl:Asset .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Permission1
+mini-odrl.ttl:Permission1 rdf:type owl:NamedIndividual ,
+                                   mini-odrl.ttl:Permission ,
+                                   mini-odrl.ttl:Rule ;
+                          mini-odrl.ttl:target <http://patrickhochstenbach.net/movies> .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Policy1
+mini-odrl.ttl:Policy1 rdf:type owl:NamedIndividual ,
+                               mini-odrl.ttl:Agreement ,
+                               mini-odrl.ttl:Policy ;
+                      mini-odrl.ttl:permission mini-odrl.ttl:Permission1 ;
+                      mini-odrl.ttl:prohibition mini-odrl.ttl:Prohibition1 .
+
+
+###  https://patrickhochstenbach.net/ontologies/mini-odrl.ttl#Prohibition1
+mini-odrl.ttl:Prohibition1 rdf:type owl:NamedIndividual ,
+                                    mini-odrl.ttl:Prohibition ,
+                                    mini-odrl.ttl:Rule ;
+                           mini-odrl.ttl:target <http://patrickhochstenbach.net/movies> .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+<#p> rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+<#x> rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+<#y> rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+<#t> rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "R1" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> mini-odrl.ttl:Policy ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> <#p>
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> mini-odrl.ttl:permission ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> <#p> ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> <#x>
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> mini-odrl.ttl:prohibition ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> <#p> ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> <#y>
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> mini-odrl.ttl:target ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> <#x> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument2> <#t>
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#propertyPredicate> mini-odrl.ttl:target ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> <#y> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument2> <#t>
+                                                                                                 ] ;
+                                                                                       rdf:rest rdf:nil
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> rdf:nil
+ ] .
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

@@ -1,0 +1,21 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://example.com/ontology> a owl:Ontology ;
+     owl:imports <file://CWD/ODRL22.ttl> .
+
+<http://example.com/policy:5555> a <http://www.w3.org/ns/odrl/2/Agreement>  ;
+  <http://www.w3.org/ns/odrl/2/conflict> <http://www.w3.org/ns/odrl/2/perm>;
+  <http://www.w3.org/ns/odrl/2/permission> [
+    <http://www.w3.org/ns/odrl/2/action> <http://www.w3.org/ns/odrl/2/display>;
+    <http://www.w3.org/ns/odrl/2/assignee> <http://example.com/assignee:55>;
+    <http://www.w3.org/ns/odrl/2/assigner> <http://example.com/MyPix:55>;
+    <http://www.w3.org/ns/odrl/2/target> <http://example.com/photoAlbum:55>
+  ];
+  <http://www.w3.org/ns/odrl/2/profile> <http://example.com/odrl:profile:08>;
+  <http://www.w3.org/ns/odrl/2/prohibition> [
+    <http://www.w3.org/ns/odrl/2/action> <http://www.w3.org/ns/odrl/2/archive>;
+    <http://www.w3.org/ns/odrl/2/assignee> <http://example.com/assignee:55>;
+    <http://www.w3.org/ns/odrl/2/assigner> <http://example.com/MyPix:55>;
+    <http://www.w3.org/ns/odrl/2/target> <http://example.com/photoAlbum:55>
+  ] .

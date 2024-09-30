@@ -1,0 +1,9 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owl2: <http://www.w3.org/2006/12/owl2#> .
+@prefix ex: <https://example.org/ns#> .
+
+ex:permise a owl:Ontology ;
+     owl:imports <file://%CWD%/ontology.ttl> .
+
+ex:Alice a ex:Woman .

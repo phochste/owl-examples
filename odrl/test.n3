@@ -1,0 +1,36 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix odrl2: <http://www.w3.org/ns/odrl/2/> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+# Do not allow conflicting permission / prohibition within one target
+{
+    ?Pol1 a odrl2:Agreement .
+    ?Pol1 odrl2:permission ?Perm .
+    
+    ?Pol2 a odrl2:Agreement .
+    ?Pol2 odrl2:prohibition ?Proh .
+
+    ?Perm odrl2:target ?Target .
+    ?Proh odrl2:target ?Target .
+}
+=> false .
+
+# Do not allow conflicting triples 
+{
+    ?Pol1 a odrl2:Agreement .
+    ?Pol1 odrl2:permission ?Perm .
+    ?Perm odrl2:target ?Target1 .
+
+    ?Target1 log:semantics ?Graph1 .
+
+    ?Graph1 log:includes { ?S ?P ?O } .
+
+    ?Pol2 a odrl2:Agreement .
+    ?Pol2 odrl2:prohibition ?Proh .
+    ?Proh odrl2:target ?Target2 .
+
+    ?Target2 log:semantics ?Graph2 .
+
+    ?Graph2 log:includes { ?S ?P ?O } .
+} => false .
