@@ -10,7 +10,7 @@ fi
 
 show() {
    echo "# eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/show.n3s"
-   eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/show.n3s 
+   eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/show.n3s
 }
 
 query () {

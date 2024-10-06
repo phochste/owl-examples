@@ -33,19 +33,19 @@
 } .
 
 # IF Duty action X THEN Permission action X
-(_:X _:Y _:Z) log:onNegativeSurface {
+(_:X _:Y _:Z _:New) log:onNegativeSurface {
     _:X 
         a :Policy ;
         :duty _:Y .
     _:Y :action _:Z .
     
-    (_:New) log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:X :permission _:New .
         _:New :action _:Z .
     } .
 } .
 
-# IF Duty action X AND Duty action Y THEN Ducy action X,Y
+# IF Duty action X AND Duty action Y THEN Duty action X,Y
 (_:X _:D1 _:D2 _:A1 _:A2) log:onNegativeSurface {
     _:X
         a :Policy ;
