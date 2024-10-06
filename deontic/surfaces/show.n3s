@@ -2,6 +2,13 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 # show a policy
+(_:S _:P _:O _:A _:B) log:onNegativeSurface {
+    _:S a :Policy .
+    _:S _:P _:O . 
+    () log:onNegativeAnswerSurface {
+        _:S _:P _:O . 
+    } .
+} .
 
 (_:S _:P _:O _:A _:B) log:onNegativeSurface {
     _:S a :Policy .

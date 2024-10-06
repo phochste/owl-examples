@@ -16,11 +16,10 @@
 
 # Test NOT duty X 
 (_:Pol _:X) log:onNegativeSurface {
-
+    _:Pol a :Policy ;
+            
     () log:onNegativeSurface {
-        _:Pol
-            a :Policy ;
-            :duty _:X .
+        _:Pol :duty _:X .
         _:X :action :%ACTION% .
     } .
 
@@ -60,11 +59,10 @@
 
 # Test NOT permission X 
 (_:Pol _:X) log:onNegativeSurface {
-
+    _:Pol a :Policy ;
+            
     () log:onNegativeSurface {
-        _:Pol
-            a :Policy ;
-            :permission _:X .
+        _:Pol :permission _:X .
         _:X :action :%ACTION% .
     } .
 
@@ -104,11 +102,10 @@
 
 # Test NOT prohibition X 
 (_:Pol _:X) log:onNegativeSurface {
+    _:Pol a :Policy .
 
     () log:onNegativeSurface {
-        _:Pol
-            a :Policy ;
-            :prohibition _:X .
+        _:Pol :prohibition _:X .
         _:X :action :%ACTION% .
     } .
 
