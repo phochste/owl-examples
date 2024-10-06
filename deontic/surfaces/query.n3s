@@ -117,7 +117,7 @@
     } .
 } .
 
-# Test permission NOT X
+# Test prohibition NOT X
 (_:Pol _:X) log:onNegativeSurface {
     _:Pol
         a :Policy ;
