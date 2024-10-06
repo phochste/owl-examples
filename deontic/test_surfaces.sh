@@ -9,11 +9,13 @@ if [ "${WHAT}" == "" ]; then
 fi
 
 show() {
+   echo "# eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/show.n3s"
    eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/show.n3s 
 }
 
 query () {
    cat surfaces/query.n3s | sed -e "s/%ACTION%/${2}/g" > surfaces/query.n3s.tmp
+   echo "# eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/query.n3s.tmp"
    eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/query.n3s.tmp 
    rm surfaces/query.n3s.tmp
 }
