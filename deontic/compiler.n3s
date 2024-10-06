@@ -1,0 +1,65 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+# Prohibition action X = Duty NOT (action X)
+(_:X _:Y _:Z) log:onNegativeSurface {
+    _:X 
+        a :Policy ;
+        :prohibition _:Y .
+    _:Y :action _:Z .
+
+    (_:New) log:onNegativeSurface {
+        _:X :duty _:New .
+        () log:onNegativeSurface {
+            _:New :action _:Z .
+        } .
+    } .
+} .
+
+# Permission action X = NOT (Prohibition action X)
+(_:X _:Y _:Z) log:onNegativeSurface {
+    _:X 
+        a :Policy ;
+        :permission _:Y .
+    _:Y :action _:Z .
+
+    (_:New) log:onNegativeSurface {
+        _:X a :Policy . # Due to a bug in eye this line is needed
+        () log:onNegativeSurface {
+            _:X :prohibition _:New .
+            _:New :action _:Z .
+        } .
+    } .
+} .
+
+# IF Duty action X THEN Permission action X
+(_:X _:Y _:Z) log:onNegativeSurface {
+    _:X 
+        a :Policy ;
+        :duty _:Y .
+    _:Y :action _:Z .
+    
+    (_:New) log:onNegativeSurface {
+        _:X :permission _:New .
+        _:New :action _:Z .
+    } .
+} .
+
+# IF Duty action X AND Duty action Y THEN Ducy action X,Y
+(_:X _:D1 _:D2 _:A1 _:A2) log:onNegativeSurface {
+    _:X
+        a :Policy ;
+        :duty _:D1 , _:D2 .
+
+    _:D1 log:notEqualTo _:D2 .
+
+    _:D1 :action _:A1 .
+    _:D2 :action _:A2 .
+
+    (_:New) log:onNegativeSurface {
+        _:X a :Policy ;
+          :duty _:New .
+
+        _:New :action _:A1 , _:A2 .
+    } .
+}.

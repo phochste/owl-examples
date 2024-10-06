@@ -1,0 +1,148 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+
+# Test duty X
+(_:Pol _:X) log:onNegativeSurface {
+    _:Pol
+        a :Policy ;
+        :duty _:X .
+    _:X :action :%ACTION% .
+
+    () log:onNegativeSurface {
+        :You :have (:duty :%ACTION%) .
+    } .
+} .
+
+# Test NOT duty X 
+(_:Pol _:X) log:onNegativeSurface {
+
+    () log:onNegativeSurface {
+        _:Pol
+            a :Policy ;
+            :duty _:X .
+        _:X :action :%ACTION% .
+    } .
+
+    () log:onNegativeSurface {
+        :You :havenot (:duty :%ACTION%).
+    } .
+} .
+
+# Test duty NOT X
+(_:Pol _:X) log:onNegativeSurface {
+    _:Pol
+        a :Policy ;
+        :duty _:X .
+
+    () log:onNegativeSurface {
+        _:X :action :%ACTION% .
+    }.
+    
+    () log:onNegativeSurface {
+        :You :have (:duty :Not%ACTION%).
+    } .
+} .
+
+###########################################################
+
+# Test permission X
+(_:Pol _:X) log:onNegativeSurface {
+    _:Pol
+        a :Policy ;
+        :permission _:X .
+    _:X :action :%ACTION% .
+
+    () log:onNegativeSurface {
+        :You :have (:permission :%ACTION%) .
+    } .
+} .
+
+# Test NOT permission X 
+(_:Pol _:X) log:onNegativeSurface {
+
+    () log:onNegativeSurface {
+        _:Pol
+            a :Policy ;
+            :permission _:X .
+        _:X :action :%ACTION% .
+    } .
+
+    () log:onNegativeSurface {
+        :You :havenot (:permission :%ACTION%).
+    } .
+} .
+
+# Test permission NOT X
+(_:Pol _:X) log:onNegativeSurface {
+    _:Pol
+        a :Policy ;
+        :permission _:X .
+
+    () log:onNegativeSurface {
+        _:X :action :%ACTION% .
+    }.
+    
+    () log:onNegativeSurface {
+        :You :have (:permission :Not%ACTION%).
+    } .
+} .
+
+###########################################################
+
+# Test prohibition X
+(_:Pol _:X) log:onNegativeSurface {
+    _:Pol
+        a :Policy ;
+        :prohibition _:X .
+    _:X :action :%ACTION% .
+
+    () log:onNegativeSurface {
+        :You :have (:prohibition :%ACTION%) .
+    } .
+} .
+
+# Test NOT prohibition X 
+(_:Pol _:X) log:onNegativeSurface {
+
+    () log:onNegativeSurface {
+        _:Pol
+            a :Policy ;
+            :prohibition _:X .
+        _:X :action :%ACTION% .
+    } .
+
+    () log:onNegativeSurface {
+        :You :havenot (:prohibition :%ACTION%).
+    } .
+} .
+
+# Test permission NOT X
+(_:Pol _:X) log:onNegativeSurface {
+    _:Pol
+        a :Policy ;
+        :prohibition _:X .
+
+    () log:onNegativeSurface {
+        _:X :action :%ACTION% .
+    }.
+    
+    () log:onNegativeSurface {
+        :You :have (:prohibition :Not%ACTION%).
+    } .
+} .
+
+# General output
+(_:What) log:onNegativeSurface {
+    :You :have _:What .
+    () log:onNegativeAnswerSurface {
+        :You :have _:What .
+    } .
+} .
+
+(_:What) log:onNegativeSurface {
+    :You :havenot _:What .
+    () log:onNegativeAnswerSurface {
+        :You :havenot _:What .
+    } .
+} .

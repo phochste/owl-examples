@@ -1,0 +1,112 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+
+# Prohibition action X = Duty NOT (action X)
+{
+    ?P
+        a :Policy ;
+        :prohibition ?Q .
+    ?Q :action ?R .
+}
+=>
+{
+    ?P :duty [
+        :negated_action ?R 
+    ].
+} .
+
+# Permission action X = NOT (Prohibition action X)
+{
+    ?P
+        a :Policy ;
+        :permission ?Q .
+    
+    ?Q :action ?R .
+}
+=>
+{
+    ?P :negated_prohibition [
+        :action ?R 
+    ].
+}.
+
+# IF Duty action X THEN Permission action X
+{
+    ?P
+        a :Policy ;
+        :duty ?Q .
+    
+    ?Q :action ?R .
+}
+=>
+{
+    ?P :permission [
+        :action ?R 
+    ] .
+} .
+
+# IF Duty action X AND Duty action Y THEN Ducy action X,Y
+{
+    ?P
+        a :Policy ;
+        :duty ?Q .
+    
+    ?Q :action ?R .
+
+    ?P :duty ?S .
+
+    ?S log:notEqualTo ?Q .
+
+    ?S :action ?T .
+
+    ?T log:notEqualTo ?R .
+}
+=>
+{
+    ?P :duty [
+        :action ?R,?T
+    ]
+}.
+
+# Check for negated action properties
+{
+    ?P 
+        a :Policy ;
+        ?Prop ?Q .
+    ?Prop list:in (:permission :duty :prohibition) .
+    ?Q :action ?R .
+
+    ?P
+        a :Policy ;
+        ?Prop ?S .
+
+    ?S log:notEqualTo ?Q .
+
+    ?S :negated_action ?R .
+} => false .
+
+# Check for negated rule properties
+{
+    ?P
+        a :Policy ;
+        ?Prop ?Q .
+    ?Prop list:in (:permission :duty :prohibition) .
+    ?Q :action ?R .
+
+    ?Prop :complement ?NegatedProp .
+
+    ?P ?NegatedProp ?S .
+
+    ?S log:notEqualTo ?Q .
+
+    ?S :action ?R .
+} => false .
+
+# Create negated property
+{ :permission :complement :negated_permission } <= true .
+{ :prohibition :complement :negated_prohibition } <= true .
+{ :duty :complement :negated_duty } <= true .
+{ :negated_duty :complement :duty } <= true .
+{ :negated_prohibition :complement :prohibition } <= true .
+{ :negated_duty :complement :duty } <= true . 

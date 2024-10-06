@@ -1,0 +1,42 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+# query
+
+(_:S _:P _:O) log:onNegativeSurface {
+    _:S a :Policy .
+    () log:onNegativeAnswerSurface {
+        _:S a :Policy .
+    } .
+} .
+
+(_:S _:P _:O _:A _:B) log:onNegativeSurface {
+    _:S a :Policy .
+    _:S _:P _:O . 
+    _:O _:A _:B .
+    () log:onNegativeAnswerSurface {
+        _:S _:P _:O . 
+        _:O _:A _:B .
+    } .
+} .
+
+(_:S _:P _:O _:A _:B _:G) log:onNegativeSurface {
+    _:S a :Policy .
+    _:S _:P _:O . 
+    () log:onNegativeSurface _:G .
+    _:G log:includes { _:O _:A _:B . } .
+    () log:onNegativeAnswerSurface {
+        _:S _:P _:O . 
+        () log:onNegativeSurface _:G.
+    } .
+} .
+
+(_:S _:P _:O _:A _:B _:G) log:onNegativeSurface {
+    _:S a :Policy .
+    () log:onNegativeSurface _:G .
+    _:G log:includes { _:S _:P _:O }.
+   
+    () log:onNegativeAnswerSurface {
+        () log:onNegativeSurface _:G
+    } .
+} .
