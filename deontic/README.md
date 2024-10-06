@@ -31,6 +31,13 @@ Test if we can TalkLoudly for `policy1.ttl`:
 
 ```
 ./test_surfaces.sh policy1.ttl TalkLoudly
+
+# produces
+
+:You :have (:duty :NotTalkLoudly).
+:You :have (:prohibition :TalkLoudly).
+
+# remark we seem to mis a permission NotTalkLoudly
 ```
 
 Show all inferences for `policy1.ttl`:
