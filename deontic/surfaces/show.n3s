@@ -1,14 +1,7 @@
 @prefix : <urn:example:> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-# query
-
-(_:S _:P _:O) log:onNegativeSurface {
-    _:S a :Policy .
-    () log:onNegativeAnswerSurface {
-        _:S a :Policy .
-    } .
-} .
+# show a policy
 
 (_:S _:P _:O _:A _:B) log:onNegativeSurface {
     _:S a :Policy .
@@ -20,6 +13,7 @@
     } .
 } .
 
+# Show a negated action
 (_:S _:P _:O _:A _:B _:G) log:onNegativeSurface {
     _:S a :Policy .
     _:S _:P _:O . 
@@ -31,11 +25,23 @@
     } .
 } .
 
+# Show a negated duty, permission or prohibition
 (_:S _:P _:O _:A _:B _:G) log:onNegativeSurface {
     _:S a :Policy .
     () log:onNegativeSurface _:G .
     _:G log:includes { _:S _:P _:O }.
    
+    () log:onNegativeAnswerSurface {
+        () log:onNegativeSurface _:G
+    } .
+} .
+
+# Show a negated policy
+(_:G _:S _:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface _:G .
+    _:G log:includes { _:S a :Policy }.
+    _:G log:notIncludes { _:X log:onNegativeSurface _:Y } .
+    _:G log:notIncludes { _:X log:onNegativeAnswerSurface _:Y } .
     () log:onNegativeAnswerSurface {
         () log:onNegativeSurface _:G
     } .

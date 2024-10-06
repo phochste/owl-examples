@@ -9,7 +9,7 @@ if [ "${WHAT}" == "" ]; then
 fi
 
 show() {
-   eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} query.n3s 
+   eye --nope --no-bnode-relabeling --quiet compiler.n3s ${1} surfaces/show.n3s 
 }
 
 query () {
