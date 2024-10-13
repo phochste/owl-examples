@@ -2,54 +2,75 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 # show a policy
-(_:S _:P _:O _:A _:B) log:onNegativeSurface {
+(_:S) log:onNegativeSurface {
     _:S a :Policy .
-    _:S _:P _:O . 
     () log:onNegativeAnswerSurface {
-        _:S _:P _:O . 
+        _:S a :Policy .
     } .
 } .
 
-(_:S _:P _:O _:A _:B) log:onNegativeSurface {
-    _:S a :Policy .
-    _:S _:P _:O . 
-    _:O _:A _:B .
+# show prohibition 
+(_:G) log:onNegativeSurface {
+    () log:onProhibitionSurface _:G .
+
     () log:onNegativeAnswerSurface {
-        _:S _:P _:O . 
-        _:O _:A _:B .
+        () log:onProhibitionSurface _:G .
     } .
 } .
 
-# Show a negated action
-(_:S _:P _:O _:A _:B _:G) log:onNegativeSurface {
-    _:S a :Policy .
-    _:S _:P _:O . 
-    () log:onNegativeSurface _:G .
-    _:G log:includes { _:O _:A _:B . } .
+# show permission 
+(_:G) log:onNegativeSurface {
+    () log:onPermissionSurface _:G .
+
     () log:onNegativeAnswerSurface {
-        _:S _:P _:O . 
-        () log:onNegativeSurface _:G.
+        () log:onPermissionSurface _:G .
     } .
 } .
 
-# Show a negated duty, permission or prohibition
-(_:S _:P _:O _:A _:B _:G) log:onNegativeSurface {
-    _:S a :Policy .
-    () log:onNegativeSurface _:G .
-    _:G log:includes { _:S _:P _:O }.
-   
+# show duty 
+(_:G) log:onNegativeSurface {
+    () log:onDutySurface _:G .
+
     () log:onNegativeAnswerSurface {
-        () log:onNegativeSurface _:G
+        () log:onDutySurface _:G .
     } .
 } .
 
-# Show a negated policy
-(_:G _:S _:X _:Y) log:onNegativeSurface {
-    () log:onNegativeSurface _:G .
-    _:G log:includes { _:S a :Policy }.
-    _:G log:notIncludes { _:X log:onNegativeSurface _:Y } .
-    _:G log:notIncludes { _:X log:onNegativeAnswerSurface _:Y } .
+# Show negated prohibition 
+(_:G) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onProhibitionSurface _:G .
+    } .
+
     () log:onNegativeAnswerSurface {
-        () log:onNegativeSurface _:G
+        () log:onNegativeSurface {
+            () log:onProhibitionSurface _:G .
+        } .
+    } .
+} .
+
+# Show negated permission 
+(_:G) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onPermissionSurface _:G .
+    } .
+
+    () log:onNegativeAnswerSurface {
+        () log:onNegativeSurface {
+            () log:onPermissionSurface _:G .
+        } .
+    } .
+} .
+
+# Show negated duty 
+(_:G) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onDutySurface _:G .
+    } .
+
+    () log:onNegativeAnswerSurface {
+        () log:onNegativeSurface {
+            () log:onDutySurface _:G .
+        } .
     } .
 } .

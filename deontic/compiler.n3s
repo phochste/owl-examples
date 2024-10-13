@@ -1,65 +1,77 @@
 @prefix : <urn:example:> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
 
-# Prohibition action X = Duty NOT (action X)
-(_:X _:Y _:Z) log:onNegativeSurface {
+# Prohibition { action X } = Duty { NOT (action X) }
+(_:X _:Y _:G) log:onNegativeSurface {
     _:X 
-        a :Policy ;
-        :prohibition _:Y .
-    _:Y :action _:Z .
+        a :Policy .
+
+    () log:onProhibitionSurface _:G .
 
     (_:New) log:onNegativeSurface {
-        _:X :duty _:New .
-        () log:onNegativeSurface {
-            _:New :action _:Z .
+        () log:onDutySurface {
+            () log:onNegativeSurface _:G .
         } .
     } .
 } .
 
-# Permission action X = NOT (Prohibition action X)
-(_:X _:Y _:Z) log:onNegativeSurface {
+# Permission { action X } = NOT { Prohibition action X }
+(_:X _:Y _:G) log:onNegativeSurface {
     _:X 
-        a :Policy ;
-        :permission _:Y .
-    _:Y :action _:Z .
+        a :Policy .
+
+    () log:onPermissionSurface _:G .
 
     (_:New) log:onNegativeSurface {
         _:X a :Policy . # Due to a bug in eye this line is needed
         () log:onNegativeSurface {
-            _:X :prohibition _:New .
-            _:New :action _:Z .
+            () log:onProhibitionSurface _:G .
         } .
     } .
 } .
 
-# IF Duty action X THEN Permission action X
-(_:X _:Y _:Z _:New) log:onNegativeSurface {
+# IF Duty { action X } THEN { Permission action X }
+(_:X _:Y _:G) log:onNegativeSurface {
     _:X 
-        a :Policy ;
-        :duty _:Y .
-    _:Y :action _:Z .
+        a :Policy .
+
+    () log:onDutySurface _:G .
     
     () log:onNegativeSurface {
-        _:X :permission _:New .
-        _:New :action _:Z .
+        () log:onPermissionSurface _:G .
     } .
 } .
 
-# IF Duty action X AND Duty action Y THEN Duty action X,Y
-(_:X _:D1 _:D2 _:A1 _:A2) log:onNegativeSurface {
+# IF Duty { action X } AND Duty { action Y } THEN Duty { action X,Y }
+(_:X _:G1 _:G2 _:G) log:onNegativeSurface {
     _:X
-        a :Policy ;
-        :duty _:D1 , _:D2 .
+        a :Policy .
 
-    _:D1 log:notEqualTo _:D2 .
+    () log:onDutySurface _:G1 .
+    () log:onDutySurface _:G2 .
 
-    _:D1 :action _:A1 .
-    _:D2 :action _:A2 .
+    (_:G1 _:G2) graph:union _:G .
 
-    (_:New) log:onNegativeSurface {
-        _:X a :Policy ;
-          :duty _:New .
-
-        _:New :action _:A1 , _:A2 .
+    () log:onNegativeSurface {
+        () log:onDutySurface _:G .
     } .
 }.
+
+# Now try to get rid of double negations in specialized surfaces
+## ..there is where deontic logic is different than FOL
+## ..we use a straightforward approach for simple not too deeply
+## ..nested cases for now
+(_:P _:G _:F) log:onNegativeSurface {
+    () _:P _:G .
+    _:P list:in (log:onProhibitionSurface log:onPermissionSurface log:onDutySurface) .
+    _:G log:equalTo {
+        () log:onNegativeSurface {
+            () log:onNegativeSurface _:F .
+        } .
+    } .
+    () log:onNegativeSurface {
+        () _:P _:F .
+    } .
+} .
